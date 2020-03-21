@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helloworld-pod
+  labels:
+    name: helloworld-pod
+spec:
+  containers:
+  - name: helloworld-pod
+    image: 09036229746/enquire-node
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 5000
+        name:  sample-pod-port

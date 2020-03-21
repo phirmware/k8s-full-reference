@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  helloworld-pod-service
+spec:
+  selector:
+    name: helloworld-pod
+  type:  LoadBalancer
+  ports:
+  - name:  helloworld-pod-port
+    port:  80
+    targetPort:  sample-pod-port
