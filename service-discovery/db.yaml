@@ -1,0 +1,38 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-deployment
+spec:
+  selector:
+    matchLabels:
+      app: database-app
+  template:
+    metadata:
+      labels:
+        app: database-app
+    spec:
+      containers:
+        - image: mongo:latest
+          name: database-app
+          resources:
+            limits:
+              cpu: "250m"
+              memory: "128M"
+          ports:
+            - containerPort: 27071
+              name: db-port
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    app: database-app
+  type: NodePort
+  ports:
+  - port: 27071
+    targetPort: db-port
