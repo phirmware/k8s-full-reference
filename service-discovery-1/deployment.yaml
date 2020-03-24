@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-deployment
+spec:
+  selector:
+    matchLabels:
+      app: practice-app
+  template:
+    metadata:
+      labels:
+        app: practice-app
+    spec:
+      containers:
+      - name: practice-app
+        image: 09036229746/front
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000

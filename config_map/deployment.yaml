@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-deployment
+spec:
+  selector:
+    matchLabels:
+      app: practice-deployment
+  template:
+    metadata:
+      labels:
+        app: practice-deployment
+    spec:
+      containers:
+        - name: nginx-deployment
+          image: nginx:alpine
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/nginx/conf.d
+          ports:
+            - containerPort: 80
+              protocol: TCP
+        - name: practice-deployment
+          image: 09036229746/practice_app:v2
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+      volumes:
+        - name: config-volume
+          configMap:
+            name: nginx-config
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: NodePort
+  selector:
+    app: practice-deployment
+  ports:
+    - port: 80
+      targetPort: 80

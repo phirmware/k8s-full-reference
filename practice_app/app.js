@@ -21,14 +21,32 @@ app.get('/healthz', (req, res) => {
     });
 });
 
-exports.start = async () => {
+app.get('/db', (req, res) => {
+    res.json({
+        message: `This is the database uri - ${db}`
+    });
+});
+
+app.get('/connect', (req, res) => {
+    console.log('Here');
+    connect(req, res);
+})
+
+async function connect(req, res) {
     try {
-        console.log('This is the db uri ', db);
         await mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
-        app.listen(port, () => console.log(`
-                Connection to the database successfully established
-                Listening on port , ${port}`));
+        res.json({
+            message: `
+            Connection to the database successfully established
+            This is the db uri ${db}`
+        });
     } catch (error) {
-        console.log(error);
+        res.json({
+            error: error
+        });
     }
+}
+
+exports.start = async () => {
+    app.listen(port, () => console.log(`Listening on port , ${port}`));
 }
