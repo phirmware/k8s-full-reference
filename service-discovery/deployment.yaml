@@ -32,7 +32,8 @@ spec:
                   name: practice-secret
                   key: message
             - name:  DB_URI
-              value: http://db-service:27071
+              value: mongodb://db-service
+              # value: mongodb://127.0.0.1
           ports:
             - containerPort: 3000
               name: practice-port

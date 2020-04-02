@@ -34,7 +34,7 @@ app.get('/connect', (req, res) => {
 
 async function connect(req, res) {
     try {
-        await mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
+        await mongoose.connect(`${db}/practice`, { useNewUrlParser: true, useUnifiedTopology: true });
         res.json({
             message: `
             Connection to the database successfully established

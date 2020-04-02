@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: practiceapp-rules
+spec:
+  rules:
+    - host: practiceapp.example.com
+      http:
+        paths:
+         - path: /
+           backend: 
+              serviceName: practice-app-service-1
+              servicePort: 80
+    - host: practiceapp-v2.example.com
+      http:
+        paths:
+         - path: /
+           backend: 
+              serviceName: practice-app-service-1
+              servicePort: 80
