@@ -33,7 +33,6 @@ spec:
                   key: message
             - name:  DB_URI
               value: mongodb://db-service
-              # value: mongodb://127.0.0.1
           ports:
             - containerPort: 3000
               name: practice-port
@@ -47,7 +46,7 @@ metadata:
 spec:
   selector:
     app: practice-app
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: practice-port

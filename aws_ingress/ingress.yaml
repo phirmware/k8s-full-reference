@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+    - host: app.kubernetes.phirmware.me
+      http:
+        paths:
+          - backend:
+              serviceName: website
+              servicePort: 80
+    - host: api.kubernetes.phirmware.me
+      http:
+        paths:
+          - backend:
+              serviceName: nodeapp
+              servicePort: 80

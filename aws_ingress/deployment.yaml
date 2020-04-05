@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website
+spec:
+  selector:
+    matchLabels:
+      app: website
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+      - name: website
+        image: 09036229746/enquire-node
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+          name: websiteport
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: website
+spec:
+  type: LoadBalancer
+  selector:
+    app: website
+  ports:
+  - port: 80
+    targetPort: websiteport
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp
+spec:
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      containers:
+      - name: nodeapp
+        image: 09036229746/practice_app
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+          name: nodeappport
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodeapp
+  ports:
+  - port: 80
+    targetPort: nodeappport
+

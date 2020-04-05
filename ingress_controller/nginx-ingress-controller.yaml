@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nginx-ingress-lb
-          image: gcr.io/google_containers/nginx-ingress-controller:0.8.3
+          image: gcr.io/google-containers/nginx-ingress-controller
           env:
             - name: POD_NAME
               valueFrom:
@@ -29,3 +29,6 @@ spec:
               hostPort: 80
             - containerPort: 443
               hostPort: 443
+          args:
+            - /nginx-ingress-controller
+            - --default-backend-service=$(POD_NAMESPACE)/echoheaders-default
