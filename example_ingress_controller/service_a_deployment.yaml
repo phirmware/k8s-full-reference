@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  wardviaene-k8s-demo-app
+  namespace: default
+  labels:
+    app:  wardviaene-k8s-demo-app
+spec:
+  selector:
+    matchLabels:
+      app: wardviaene-k8s-demo-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wardviaene-k8s-demo-app
+    spec:
+      containers:
+      - name: wardviaene-k8s-demo-app
+        image: wardviaene/k8s-demo
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wardviaene-k8s-demo-app-service
+  namespace: default
+spec:
+  selector:
+    app: wardviaene-k8s-demo-app
+  type: NodePort
+  ports:
+  - name: wardviaene-k8s-demo-app-port
+    protocol: TCP
+    port: 80
+    targetPort: 3000
+    # If you set the `spec.type` field to `NodePort` and you want a specific port number,
+    # you can specify a value in the `spec.ports[*].nodePort` field.
+    nodePort: 30001
