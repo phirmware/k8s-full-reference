@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  example-service
+  namespace: default
+  labels:
+    app:  example-service
+spec:
+  selector:
+    matchLabels:
+      app: example-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app:  example-service
+    spec:
+      containers:
+      - name:  example-service
+        image:  wardviaene/k8s-demo:2
+        resources:
+          requests:
+            cpu: 5m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort:  3000
+      restartPolicy: Always
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: example-service-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: example-service
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
